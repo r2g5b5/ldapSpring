@@ -26,24 +26,18 @@ public class LdapService {
         return ldapTemplate.search(BASE_DN, "(objectclass=inetOrgPerson)",
                 (AttributesMapper<LdapUser>) attributes -> {
                     LdapUser ldapuser = new LdapUser();
-
-                    // Check for null before accessing attributes
                     if (attributes.get("cn") != null) {
                         ldapuser.setCn(attributes.get("cn").get().toString());
                     }
-
                     if (attributes.get("sn") != null) {
                         ldapuser.setSn(attributes.get("sn").get().toString());
                     }
-
                     if (attributes.get("uid") != null) {
                         ldapuser.setUsername(attributes.get("uid").get().toString());
                     }
-
                     if (attributes.get("userPassword") != null) {
                         ldapuser.setPassword(attributes.get("userPassword").get().toString());
                     }
-
                     return ldapuser;
                 });
     }
@@ -64,7 +58,7 @@ public class LdapService {
         if (!usernames.isEmpty()) {
             return usernames.get(0);
         } else {
-            return null; // User not found
+            return null;
         }
     }
     public void deleteUser(String uid) {

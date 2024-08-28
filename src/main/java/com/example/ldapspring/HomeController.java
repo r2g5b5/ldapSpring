@@ -1,7 +1,6 @@
 package com.example.ldapspring;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +22,6 @@ public class HomeController {
     @GetMapping("/getUserDetails")
     public String getUserDetails(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        // access user details
         String userName = userDetails.getUsername();
         boolean accNonExpired = userDetails.isAccountNonExpired();
         return "UserDetails: " + userName + "\n Account Non Expired: " + accNonExpired;
@@ -37,7 +34,6 @@ public class HomeController {
 
     @GetMapping("/getUserById/{uid}")
     public String getUserById(@PathVariable String uid) {
-
         return ldapService.getUserById(uid);
     }
 
