@@ -19,14 +19,6 @@ public class HomeController {
         return "success";
     }
 
-    @GetMapping("/getUserDetails")
-    public String getUserDetails(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String userName = userDetails.getUsername();
-        boolean accNonExpired = userDetails.isAccountNonExpired();
-        return "UserDetails: " + userName + "\n Account Non Expired: " + accNonExpired;
-    }
-
     @GetMapping("/getAllUsers")
     public List<LdapUser> getAllUsers() {
         return ldapService.getAllUsers();
