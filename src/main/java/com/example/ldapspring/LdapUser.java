@@ -6,8 +6,8 @@ import javax.naming.directory.BasicAttributes;
 public class LdapUser {
     private String cn;
     private String sn;
-    private String password;
     private String username;
+    private String password;
 
     public String getCn() {
         return cn;
