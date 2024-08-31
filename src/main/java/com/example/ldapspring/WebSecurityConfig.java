@@ -1,5 +1,6 @@
 package com.example.ldapspring;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ldap.core.LdapTemplate;
@@ -12,10 +13,21 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.ldap.LdapBindAuthenticationManagerFactory;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+
+    @Value("${ldap.url}")
+    private String ldapUrl;
+
+    @Value("${ldap.userDn}")
+    private String ldapUserDn;
+
+    @Value("${ldap.password}")
+    private String ldapPassword;
+
+    @Value("${ldap.userDnPatterns}")
+    private String userDnPatterns;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,18 +45,16 @@ public class WebSecurityConfig {
     @Bean
     public LdapContextSource ldapContextSource() {
         LdapContextSource contextSource = new LdapContextSource();
-        contextSource.setUrl("ldap://localhost:10389");
-        contextSource.setUserDn("uid=admin,ou=system");
-        contextSource.setPassword("secret");
+        contextSource.setUrl(ldapUrl);
+        contextSource.setUserDn(ldapUserDn);
+        contextSource.setPassword(ldapPassword);
         return contextSource;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(BaseLdapPathContextSource
-                                                               baseLdapPathContextSource) {
+    public AuthenticationManager authenticationManager(BaseLdapPathContextSource baseLdapPathContextSource) {
         LdapBindAuthenticationManagerFactory factory = new LdapBindAuthenticationManagerFactory(baseLdapPathContextSource);
-        factory.setUserDnPatterns("cn={0}");
+        factory.setUserDnPatterns(userDnPatterns);
         return factory.createAuthenticationManager();
     }
-
 }
