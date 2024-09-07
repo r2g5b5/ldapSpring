@@ -13,6 +13,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
 import javax.naming.ldap.LdapName;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -63,7 +64,7 @@ public class LdapService {
                         newModificationItem("cn", user.getCn()),
                         newModificationItem("sn", user.getSn()),
                         newModificationItem("userPassword", user.getPassword())
-                ).filter(item -> item != null)
+                ).filter(Objects::nonNull)
                 .toArray(ModificationItem[]::new);
     }
 
